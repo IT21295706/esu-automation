@@ -6,6 +6,7 @@ on:
       - main  # Change this if needed
     paths:
       - '/opt/liquibase/changelog.xml'  # Trigger when changelog.xml is updated
+  workflow_dispatch:  
 
 jobs:
   liquibase-update:
