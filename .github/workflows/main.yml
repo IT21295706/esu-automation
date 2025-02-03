@@ -1,0 +1,37 @@
+name: Liquibase Migration
+
+on:
+  push:
+    branches:
+      - main  # Change this if needed
+    paths:
+      - '/opt/liquibase/changelog.xml'  # Trigger when changelog.xml is updated
+
+jobs:
+  liquibase-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Liquibase
+        run: |
+          wget https://github.com/liquibase/liquibase/releases/download/v4.24.2/liquibase-4.24.2.zip
+          unzip liquibase-4.24.2.zip -d /opt/liquibase
+          chmod +x /opt/liquibase/liquibase
+
+      - name: Download MariaDB JDBC Driver
+        run: |
+          wget https://downloads.mariadb.com/Connectors/java/latest/mariadb-java-client.jar -O /opt/liquibase/lib/mariadb-java-client.jar
+
+      - name: Run Liquibase Update with Properties File
+        run: |
+            /opt/liquibase/liquibase --searchPath=/opt update --changelog-file=liquibase/changelog.xml --log-level=debug
+
+      - name: Verify Changes
+        run: |
+         /opt/liquibase/liquibase --searchPath=/opt status --changelog-file=liquibase/changelog.xml --log-level=debug
+
+      - name: Print Success Message
+        run: echo "✅ Liquibase migration applied successfully!"
