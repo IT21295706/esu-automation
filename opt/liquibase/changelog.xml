@@ -7,15 +7,15 @@
 
     <changeSet id="1" author="Ranuri">
         <addColumn tableName="example_table">
-            <column name="new_column" type="varchar(255)"/>
+            <column name="ranuri" type="varchar(255)"/>
         </addColumn>
     </changeSet>
 
     <changeSet id="2" author="Ranuri">
         <renameColumn
             tableName="example_table"
-            oldColumnName="new_column"
-            newColumnName="ranuri"
+            oldColumnName="ranuri"
+            newColumnName="ranuri1"
             columnDataType="varchar(255)"/>
     </changeSet>
 
