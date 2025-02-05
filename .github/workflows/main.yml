@@ -22,9 +22,7 @@ jobs:
           unzip liquibase-4.25.0.zip -d /opt/liquibase
           chmod +x /opt/liquibase/liquibase
 
-      - name: Download MariaDB JDBC Driver
-        run: |
-          wget https://downloads.mariadb.com/Connectors/java/latest/mariadb-java-client.jar -O /opt/liquibase/lib/mariadb-java-client.jar
+
 
       - name: Run Liquibase Update with Properties File
         run: |
