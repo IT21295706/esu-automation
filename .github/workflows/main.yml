@@ -23,10 +23,15 @@ jobs:
           chmod +x /opt/liquibase/liquibase
 
 
+      - name: Test DB Connection
+        run: |
+          nc -zv 13.212.238.210 3306
+
 
       - name: Run Liquibase Update with Properties File
         run: |
             /opt/liquibase/liquibase --searchPath=/opt update --changelog-file=liquibase/changelog.xml --log-level=debug
+
 
       - name: Verify Changes
         run: |
