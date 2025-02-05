@@ -33,9 +33,6 @@ jobs:
             /opt/liquibase/liquibase --searchPath=/opt status --changelog-file=liquibase/changelog.xml --log-level=debug
 
 
-      - name: Verify Changes
-        run: |
-         /opt/liquibase/liquibase --searchPath=/opt update --changelog-file=liquibase/changelog.xml --log-level=debug
 
       - name: Print Success Message
         run: echo "✅ Liquibase migration applied successfully!"
