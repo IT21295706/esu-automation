@@ -19,7 +19,7 @@ jobs:
       - name: Set Up Liquibase
         run: |
           wget https://github.com/liquibase/liquibase/releases/download/v4.25.0/liquibase-4.25.0.zip
-          unzip liquibase-4.24.2.zip -d /opt/liquibase
+          unzip liquibase-4.25.0.zip -d /opt/liquibase
           chmod +x /opt/liquibase/liquibase
 
       - name: Download MariaDB JDBC Driver
