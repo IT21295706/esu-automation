@@ -27,6 +27,11 @@ jobs:
         run: |
           nc -zv 13.212.238.210 3306
 
+      - name: Debug Liquibase Properties
+        run: |
+          ls -l liquibase/
+          cat liquibase/liquibase.properties || echo "⚠️ liquibase.properties NOT FOUND!"
+
 
       - name: Run Liquibase STATUS with Properties File
         run: |
