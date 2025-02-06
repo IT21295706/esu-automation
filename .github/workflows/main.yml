@@ -27,6 +27,12 @@ jobs:
         run: |
           nc -zv 13.212.238.210 3306
 
+      - name: Copy Liquibase Configuration Files
+        run: |
+          cp esu-automation/opt/liquibase/liquibase.properties /opt/liquibase/liquibase.properties
+          cp esu-automation/opt/liquibase/changelog.xml /opt/liquibase/changelog.xml
+          ls -l /opt/liquibase  # Debugging step to verify the files exist
+
       - name: Debug Liquibase Properties
         run: |
           ls -l /opt/liquibase/
