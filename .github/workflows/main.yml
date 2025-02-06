@@ -28,9 +28,9 @@ jobs:
           nc -zv 13.212.238.210 3306
 
 
-      - name: Run Liquibase Update with Properties File
+      - name: Run Liquibase STATUS with Properties File
         run: |
-            /opt/liquibase/liquibase --searchPath=/opt update --changelog-file=liquibase/changelog.xml --log-level=debug
+            /opt/liquibase/liquibase --searchPath=/opt status --changelog-file=liquibase/changelog.xml --log-level=debug
 
 
 
