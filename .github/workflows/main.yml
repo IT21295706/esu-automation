@@ -30,7 +30,7 @@ jobs:
 
       - name: Run Liquibase Update with Properties File
         run: |
-            /opt/liquibase/liquibase --searchPath=/opt status --changelog-file=liquibase/changelog.xml --log-level=debug
+            /opt/liquibase/liquibase --searchPath=/opt update --changelog-file=liquibase/changelog.xml --log-level=debug
 
 
 
