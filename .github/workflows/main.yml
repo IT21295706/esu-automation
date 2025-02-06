@@ -29,9 +29,10 @@ jobs:
 
       - name: Copy Liquibase Configuration Files
         run: |
-          cp /esu-automation/opt/liquibase/liquibase.properties /opt/liquibase/liquibase.properties
-          cp /esu-automation/opt/liquibase/changelog.xml /opt/liquibase/changelog.xml
-          ls -l /opt/liquibase  # Debugging step to verify the files exist
+          mkdir -p /opt/liquibase  
+          cp $GITHUB_WORKSPACE/liquibase/liquibase.properties /opt/liquibase/liquibase.properties
+          cp $GITHUB_WORKSPACE/liquibase/changelog.xml /opt/liquibase/changelog.xml
+          ls -l /opt/liquibase  
 
       - name: Debug Liquibase Properties
         run: |
