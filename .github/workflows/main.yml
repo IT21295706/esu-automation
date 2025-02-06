@@ -42,7 +42,7 @@ jobs:
 
       - name: Run Liquibase STATUS with Properties File
         run: |
-            /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
+            /opt/liquibase/liquibase --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
 
 
 
