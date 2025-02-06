@@ -44,6 +44,10 @@ jobs:
         run: |
             /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
 
+      - name: Run Liquibase UPDATE with Properties File
+        run: |
+            /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
+
 
 
       - name: Print Success Message
