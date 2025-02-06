@@ -35,4 +35,13 @@
             columnDataType="varchar(255)"/>
     </changeSet>
 
+     <changeSet id="5" author="Ranuri">
+        <renameColumn
+            tableName="example_table"
+            oldColumnName="ranuri2"
+            newColumnName="ranuri3"
+            columnDataType="varchar(255)"/>
+   </changeSet>
+
+
 </databaseChangeLog>
