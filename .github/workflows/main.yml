@@ -3,7 +3,7 @@ name: Liquibase Migrationn
 on:
   push:
     branches:
-      - main1 # Change this if needed
+      - main # Change this if needed
   
   workflow_dispatch:  
 
