@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main  # Change this if needed
-    paths:
-      - '/opt/liquibase'  # Trigger when changelog.xml is updated
+  
   workflow_dispatch:  
 
 jobs:
