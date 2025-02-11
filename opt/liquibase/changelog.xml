@@ -20,11 +20,9 @@
     </changeSet>
 
     <changeSet id="3" author="Ranuri">
-        <renameColumn
-            tableName="example_table"
-            oldColumnName="ranuri"
-            newColumnName="ranuri1"
-            columnDataType="varchar(255)"/>
+        <addColumn tableName="example_table">
+            <column name="ranuri8" type="varchar(255)"/>
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>
