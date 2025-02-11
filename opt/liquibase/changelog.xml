@@ -31,4 +31,10 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="5" author="Ranuri">
+        <addColumn tableName="example_table">
+            <column name="ranuri11" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
