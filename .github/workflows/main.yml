@@ -43,6 +43,12 @@ jobs:
         run: |
             /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
 
+
+      - name: Getting a dump of the DB
+        run: |
+            mysqldump -u root -p database1 > /tmp/database1_2.sql
+            
+
       - name: Run Liquibase UPDATE with Properties File
         run: |
             /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
