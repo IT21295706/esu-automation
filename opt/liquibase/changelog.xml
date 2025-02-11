@@ -25,4 +25,10 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="4" author="Ranuri">
+        <addColumn tableName="example_table">
+            <column name="ranuri10" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
