@@ -38,7 +38,7 @@
     </changeSet>
 
     <changeSet id="6" author="Ranuri">
-        <addColumn tableName="exe_table">
+        <addColumn tableName="example_table">
             <column name="ranuri12" type="varchar(255)"/>
         </addColumn>
     </changeSet>
