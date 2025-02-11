@@ -11,4 +11,12 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="2" author="Ranuri">
+        <renameColumn
+            tableName="example_table"
+            oldColumnName="new_column"
+            newColumnName="ranuri"
+            columnDataType="varchar(255)"/>
+    </changeSet>
+
 </databaseChangeLog>
