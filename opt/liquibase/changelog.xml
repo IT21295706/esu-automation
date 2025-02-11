@@ -19,36 +19,4 @@
             columnDataType="varchar(255)"/>
     </changeSet>
 
-    <changeSet id="3" author="Ranuri">
-        <renameColumn
-            tableName="example_table"
-            oldColumnName="ranuri"
-            newColumnName="ranuri1"
-            columnDataType="varchar(255)"/>
-    </changeSet>
-
-    <changeSet id="4" author="Ranuri">
-        <renameColumn
-            tableName="example_table"
-            oldColumnName="ranuri1"
-            newColumnName="ranuri2"
-            columnDataType="varchar(255)"/>
-    </changeSet>
-
-     <changeSet id="5" author="Ranuri">
-        <renameColumn
-            tableName="example_table"
-            oldColumnName="ranuri2"
-            newColumnName="ranuri3"
-            columnDataType="varchar(255)"/>
-   </changeSet>
-
-   <changeSet id="6" author="Ranuri">
-        <renameColumn
-            tableName="example_table"
-            oldColumnName="ranuri3"
-            newColumnName="ranuri4"
-            columnDataType="varchar(255)"/>
-   </changeSet>
-
 </databaseChangeLog>
