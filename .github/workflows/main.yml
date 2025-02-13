@@ -44,16 +44,13 @@ jobs:
             /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
 
 
-      - name: Getting a dump of the DB
+      - name: Taking a Database Dump Inside AWS Server
         run: |
-            mysqldump --protocol=tcp -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 > $HOME/database1_5.sql
-            echo "✅ Backup created at $HOME/database1_5.sql"
-
-
-      - name: Verify Dump
-        run: |
-          echo " Verifying backup..."
-          ls -lh $HOME/database1_5.sql  || echo "❌ Backup file not found!"
+           echo "🛠️ Creating a backup directly inside the AWS server..."
+           ssh -o StrictHostKeyChecking=no ubuntu@13.212.238.210 << EOF
+             mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 > /home/ec2-user/database_backup_8.sql
+           EOF
+           echo "✅ Backup created at /home/ec2-user/database_backup_8.sql inside AWS server"
 
 
       - name: Run Liquibase UPDATE with Properties File
@@ -62,18 +59,6 @@ jobs:
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
         #continue-on-error: true  # Prevents pipeline from failing immediately
 
-
-      - name: Rollback If Update Fails
-        if: failure()
-        run: |
-          echo "❌ Liquibase update failed! Restoring database from backup..."
-          echo " Dropping and recreating database1..."
-          mysql --protocol=tcp -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "DROP DATABASE IF EXISTS database1; CREATE DATABASE database1;"
-
-          echo " Restoring the database..."
-          mysql --protocol=tcp -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 < $HOME/database1_5.sql
-          
-          echo " Database restored to previous state."
 
 
       - name: Print Success Message
