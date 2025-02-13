@@ -60,7 +60,7 @@ jobs:
         run: |
           echo " Running Liquibase update..."
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
-        continue-on-error: true  # Prevents pipeline from failing immediately
+        #continue-on-error: true  # Prevents pipeline from failing immediately
 
 
       - name: Rollback If Update Fails
