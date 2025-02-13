@@ -46,18 +46,32 @@ jobs:
 
       - name: Getting a dump of the DB
         run: |
-            mysqldump --protocol=tcp -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 > $HOME/database1_4.sql
+            echo "🛠️ Creating a backup before running Liquibase..."
+            mysqldump --protocol=tcp -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 > $HOME/database1_5.sql
+            echo "✅ Backup created at $HOME/database1_5.sql"
 
 
       - name: Verify Dump
-        run: ls -lh $HOME    
+        run: |
+          echo " Verifying backup..."
+          ls -lh $HOME/database1_5.sql  || echo "❌ Backup file not found!"
 
 
       - name: Run Liquibase UPDATE with Properties File
         run: |
-            /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
+          echo " Running Liquibase update..."
+          /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
+        continue-on-error: true  # Prevents pipeline from failing immediately
 
+
+      - name: Rollback If Update Fails
+        if: failure()
+        run: |
+          echo "❌ Liquibase update failed! Restoring database from backup..."
+          mysql --protocol=tcp -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 < $HOME/database1_5.sql
+          echo " Database restored to previous state."
 
 
       - name: Print Success Message
+        if: success()
         run: echo "✅ Liquibase migration applied successfully!"
