@@ -46,7 +46,6 @@ jobs:
 
       - name: Getting a dump of the DB
         run: |
-            echo "🛠️ Creating a backup before running Liquibase..."
             mysqldump --protocol=tcp -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 > $HOME/database1_5.sql
             echo "✅ Backup created at $HOME/database1_5.sql"
 
