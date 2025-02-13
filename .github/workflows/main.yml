@@ -46,7 +46,7 @@ jobs:
 
       - name: Getting a dump of the DB
         run: |
-            mysqldump -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 > /tmp/database1_2.sql
+            mysqldump --protocol=tcp -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 > /tmp/database1_3.sql
             
 
       - name: Run Liquibase UPDATE with Properties File
