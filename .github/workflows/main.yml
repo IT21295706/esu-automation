@@ -67,7 +67,12 @@ jobs:
         if: failure()
         run: |
           echo "❌ Liquibase update failed! Restoring database from backup..."
+          echo " Dropping and recreating database1..."
+          mysql --protocol=tcp -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "DROP DATABASE IF EXISTS database1; CREATE DATABASE database1;"
+
+          echo " Restoring the database..."
           mysql --protocol=tcp -h 13.212.238.210 -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 < $HOME/database1_5.sql
+          
           echo " Database restored to previous state."
 
 
