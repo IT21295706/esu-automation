@@ -44,14 +44,19 @@ jobs:
             /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
 
 
+      - name: Add SSH Key
+        run: |
+          echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/aws_key.pem
+          chmod 600 ~/.ssh/aws_key.pem
+
+      
       - name: Taking a Database Dump Inside AWS Server
         run: |
            echo "🛠️ Creating a backup directly inside the AWS server..."
-           ssh -o StrictHostKeyChecking=no ubuntu@13.212.238.210 << EOF
+           ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 << EOF
              mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 > /home/ec2-user/database_backup_8.sql
            EOF
            echo "✅ Backup created at /home/ec2-user/database_backup_8.sql inside AWS server"
-
 
       - name: Run Liquibase UPDATE with Properties File
         run: |
