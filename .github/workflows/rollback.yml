@@ -30,8 +30,8 @@ jobs:
       - name: Drop and Recreate Database
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 << 'EOF'
-            mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "DROP DATABASE IF EXISTS database1;"
-            mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "CREATE DATABASE database1;"
+            mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "DROP DATABASE IF EXISTS database2;"
+            mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "CREATE DATABASE database2;"
           EOF
           echo "✅ Database dropped and recreated successfully!"
 
