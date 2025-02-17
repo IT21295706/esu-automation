@@ -37,6 +37,6 @@ jobs:
 
       - name: Restore Database from Backup
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ubuntu@13.212.238.210 \
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 \
           'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 < /home/ec2-user/database_backup_8.sql'
           echo "✅ Database rollback completed successfully!"
