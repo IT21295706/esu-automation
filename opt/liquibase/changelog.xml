@@ -5,23 +5,10 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
+
     <changeSet id="1" author="Ranuri">
         <addColumn tableName="example_table">
-            <column name="new_column" type="varchar(255)"/>
-        </addColumn>
-    </changeSet>
-
-    <changeSet id="2" author="Ranuri">
-        <renameColumn
-            tableName="example_table"
-            oldColumnName="new_column"
-            newColumnName="ranuri"
-            columnDataType="varchar(255)"/>
-    </changeSet>
-
-    <changeSet id="3" author="Ranuri">
-        <addColumn tableName="example_table">
-            <column name="ranuri8" type="varchar(255)"/>
+            <column name="ranuri-1" type="varchar(255)"/>
         </addColumn>
     </changeSet>
 
