@@ -50,7 +50,7 @@
      </changeSet>
 
     <changeSet id="8" author="Ranuri">
-        <addColumn tableName="ex_table">
+        <addColumn tableName="example_table">
             <column name="ranuri14" type="varchar(255)"/>
         </addColumn>
      </changeSet>
