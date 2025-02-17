@@ -19,16 +19,17 @@ jobs:
 
       - name: Verify Backup File Exists
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ubuntu@13.212.238.210 \
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 \
           'if [ -f /home/ec2-user/database_backup_8.sql ]; then 
              echo "✅ Backup file found!";
+              ls -l /home/ec2-user/database_backup_8.sql
            else 
              echo "❌ Backup file NOT found!"; exit 1;
            fi'
 
       - name: Drop and Recreate Database
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ubuntu@13.212.238.210 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 << 'EOF'
             mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "DROP DATABASE IF EXISTS database1;"
             mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "CREATE DATABASE database1;"
           EOF
