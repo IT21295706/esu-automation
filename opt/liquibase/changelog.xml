@@ -29,5 +29,19 @@
             <column name="ranuri-NEW" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+
+    
+    <changeSet id="5" author="Ranuri">
+        <addColumn tableName="example_table">
+            <column name="ranuri-4" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    
+     <changeSet id="6" author="Ranuri">
+        <addColumn tableName="ex_table">
+            <column name="ranuri-5" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
     
 </databaseChangeLog>
