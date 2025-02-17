@@ -26,7 +26,7 @@
 
     <changeSet id="4" author="Ranuri">
         <addColumn tableName="example_table">
-            <column name="ranuri-4" type="varchar(255)"/>
+            <column name="ranuri-NEW" type="varchar(255)"/>
         </addColumn>
     </changeSet>
     
