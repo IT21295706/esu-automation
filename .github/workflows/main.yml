@@ -57,7 +57,7 @@ jobs:
         run: |
            echo "🛠️ Creating a backup directly inside the AWS server..."
            ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 << EOF
-             mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/database_backup_9.sql
+             mysqldump -u root -p "${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/database_backup_10.sql
            EOF
            echo "✅ Backup created at /home/ec2-user/database_backup_9.sql inside AWS server"
 
