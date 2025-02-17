@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main # Change this if needed
+    paths:
+      - '/opt/liquibase/changelog.xml'
   
   workflow_dispatch:  
 
