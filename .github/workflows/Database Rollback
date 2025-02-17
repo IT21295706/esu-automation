@@ -1,14 +1,2 @@
-name: Database Rollback
-
-on:
-  workflow_dispatch:  # Allows manual rollback trigger
-
-jobs:
-  rollback-database:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
 
 
