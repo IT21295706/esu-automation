@@ -17,5 +17,11 @@
             <column name="ranuri-2" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+
+    <changeSet id="3" author="Ranuri">
+        <addColumn tableName="example_table">
+            <column name="ranuri-3" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
     
 </databaseChangeLog>
