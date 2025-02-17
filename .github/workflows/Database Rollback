@@ -11,31 +11,4 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Add SSH Key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/aws_key.pem
-          chmod 600 ~/.ssh/aws_key.pem
 
-      - name: Verify Backup File Exists
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ubuntu@13.212.238.210 \
-          'if [ -f /home/ec2-user/database_backup_8.sql ]; then 
-             echo "✅ Backup file found!";
-           else 
-             echo "❌ Backup file NOT found!"; exit 1;
-           fi'
-
-      - name: Drop and Recreate Database
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ubuntu@13.212.238.210 << 'EOF'
-            mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "DROP DATABASE IF EXISTS database1;"
-            mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "CREATE DATABASE database1;"
-          EOF
-          echo "✅ Database dropped and recreated successfully!"
-
-      - name: Restore Database from Backup
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ubuntu@13.212.238.210 \
-          'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database1 < /home/ec2-user/database_backup_8.sql'
-          echo "✅ Database rollback completed successfully!"
