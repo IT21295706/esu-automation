@@ -82,7 +82,16 @@ jobs:
         continue-on-error: true  # Prevents pipeline from failing immediately
 
 
-    
+      - name: Rollback If Update Fails (Drop and Recreate Database)
+        if: failure()
+        run: |
+          echo "❌ Liquibase update failed! Restoring database from backup..."
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 << 'EOF'
+            mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "DROP DATABASE IF EXISTS database2;"
+            mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "CREATE DATABASE database2;"
+          EOF
+          echo "✅ Database dropped and recreated successfully!"
+
 
 
       - name: Restore Database from Backup
