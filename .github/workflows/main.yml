@@ -60,14 +60,27 @@ jobs:
              mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW.sql
            EOF
            echo "✅ Backup created at /home/ec2-user/BACKUP_NEW.sql inside AWS server"
+           
 
       - name: Run Liquibase UPDATE with Properties File
         run: |
           echo " Running Liquibase update..."
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
-        #continue-on-error: true  # Prevents pipeline from failing immediately
+        continue-on-error: true  # Prevents pipeline from failing immediately
 
 
+
+
+
+        
+
+
+      - name: Restore Database from Backup
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 \
+          'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 < /home/ec2-user/BACKUP_NEW_2.sql'
+          echo "✅ Database rollback completed successfully!"
+          
 
       - name: Print Success Message
         if: success()
