@@ -49,5 +49,11 @@
             <column name="ranuri-6" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+
+     <changeSet id="8" author="Ranuri">
+        <addColumn tableName="example_table">
+            <column name="ranuri-7" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
     
 </databaseChangeLog>
