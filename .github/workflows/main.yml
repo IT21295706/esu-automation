@@ -57,48 +57,16 @@ jobs:
         run: |
            echo "🛠️ Creating a backup directly inside the AWS server..."
            ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 << EOF
-             mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW_2.sql
+             mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW.sql
            EOF
-           echo "✅ Backup created at /home/ec2-user/BACKUP_NEW_2.sql inside AWS server"
-
-
-
-      - name: Verify Backup File Exists
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 \
-          'if [ -f /home/ec2-user/BACKUP_NEW_2.sql ]; then 
-             echo "✅ Backup file found!";
-              ls -l /home/ec2-user/BACKUP_NEW_2.sql
-           else 
-             echo "❌ Backup file NOT found!"; exit 1;
-           fi'
-
-           
+           echo "✅ Backup created at /home/ec2-user/BACKUP_NEW.sql inside AWS server"
 
       - name: Run Liquibase UPDATE with Properties File
         run: |
           echo " Running Liquibase update..."
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
-        continue-on-error: true  # Prevents pipeline from failing immediately
+        #continue-on-error: true  # Prevents pipeline from failing immediately
 
-
-      - name: Rollback If Update Fails (Drop and Recreate Database)
-        if: failure()
-        run: |
-          echo "❌ Liquibase update failed! Restoring database from backup..."
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 << 'EOF'
-            mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "DROP DATABASE IF EXISTS database2;"
-            mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" -e "CREATE DATABASE database2;"
-          EOF
-          echo "✅ Database dropped and recreated successfully!"
-
-
-
-      - name: Restore Database from Backup
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 \
-          'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 < /home/ec2-user/BACKUP_NEW_2.sql'
-          echo "✅ Database rollback completed successfully!"
 
 
       - name: Print Success Message
