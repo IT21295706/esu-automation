@@ -3,7 +3,7 @@ name: Liquibase Migration
 on:
   push:
     branches:
-      - main # Change this if needed
+      - main
     paths:
       - '/opt/liquibase/changelog.xml'
   
@@ -22,59 +22,58 @@ jobs:
           wget https://github.com/liquibase/liquibase/releases/download/v4.25.0/liquibase-4.25.0.zip
           unzip liquibase-4.25.0.zip -d /opt/liquibase
           chmod +x /opt/liquibase/liquibase
-
+          
       - name: Test DB Connection
         run: |
           nc -zv 13.212.238.210 3306
-
+          
       - name: Copy Liquibase Configuration Files
         run: |
           mkdir -p /opt/liquibase  
-          cp $GITHUB_WORKSPACE/opt/liquibase/liquibase.properties /opt/liquibase/liquibase.properties
-          cp $GITHUB_WORKSPACE/opt/liquibase/changelog.xml /opt/liquibase/changelog.xml
+          cp $GITHUB_WORKSPACE/liquibase/liquibase.properties /opt/liquibase/liquibase.properties
+          cp $GITHUB_WORKSPACE/liquibase/changelog.xml /opt/liquibase/changelog.xml
           ls -l /opt/liquibase  
-
+          
       - name: Debug Liquibase Properties
         run: |
           ls -l /opt/liquibase/
           cat /opt/liquibase/liquibase.properties || echo "⚠️ liquibase.properties NOT FOUND!"
 
-      - name: Run Liquibase STATUS with Properties File
+      - name: Run Liquibase STATUS
         run: |
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
-
+          
       - name: Add SSH Key
         run: |
-          mkdir -p ~/.ssh  # Ensure the SSH directory exists
+          mkdir -p ~/.ssh
           echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/aws_key.pem
           chmod 600 ~/.ssh/aws_key.pem
       
-      - name: Taking a Database Dump Inside AWS Server
+      - name: Take a Database Backup Inside AWS Server
         run: |
-          echo "🛠️ Creating a backup directly inside the AWS server..."
+          echo "🛠️ Creating a backup before applying changes..."
           ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 << EOF
             mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW_2.sql
           EOF
-          echo "✅ Backup created at /home/ec2-user/BACKUP_NEW_2.sql inside AWS server"
-           
-      - name: Run Liquibase UPDATE with Properties File
+          echo "✅ Backup created successfully!"
+
+      - name: Run Liquibase UPDATE with Error Handling
         id: liquibase_update
         run: |
-          echo " Running Liquibase update..."
+          echo "🔄 Running Liquibase update..."
+          set +e  # Allow script to continue even if an error occurs
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
-          echo "LIQUIBASE_EXIT_CODE=$?" >> $GITHUB_ENV  # Store exit code in environment variable
-        continue-on-error: true  # Prevents pipeline from failing immediately
+          echo "LIQUIBASE_EXIT_CODE=$?" >> $GITHUB_ENV  # Save exit code to GitHub Actions env variable
+          set -e  # Enable failing for later steps
 
-
-      - name: Restore Database from Backup (If Liquibase Fails)
-        if: env.LIQUIBASE_EXIT_CODE != '0'
+      - name: Restore Database from Backup (Only if Liquibase Fails)
+        if: env.LIQUIBASE_EXIT_CODE != '0'  # Run only if Liquibase failed
         run: |
-          echo "❌ Liquibase update failed. Restoring database..."
+          echo "⚠️ Liquibase update failed! Rolling back database..."
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 \
           'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 < /home/ec2-user/BACKUP_NEW_2.sql'
           echo "✅ Database rollback completed successfully!"
-
           
       - name: Print Success Message
-        if: env.LIQUIBASE_EXIT_CODE == '0'
+        if: env.LIQUIBASE_EXIT_CODE == '0'  # Run only if Liquibase succeeded
         run: echo "✅ Liquibase migration applied successfully!"
