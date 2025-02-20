@@ -1,4 +1,4 @@
-name: Liquibase Migrationn
+name: Liquibase Migration
 
 on:
   push:
@@ -23,7 +23,6 @@ jobs:
           unzip liquibase-4.25.0.zip -d /opt/liquibase
           chmod +x /opt/liquibase/liquibase
 
-
       - name: Test DB Connection
         run: |
           nc -zv 13.212.238.210 3306
@@ -40,28 +39,24 @@ jobs:
           ls -l /opt/liquibase/
           cat /opt/liquibase/liquibase.properties || echo "⚠️ liquibase.properties NOT FOUND!"
 
-
       - name: Run Liquibase STATUS with Properties File
         run: |
-            /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
-
+          /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
 
       - name: Add SSH Key
         run: |
           mkdir -p ~/.ssh  # Ensure the SSH directory exists
           echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/aws_key.pem
           chmod 600 ~/.ssh/aws_key.pem
-
       
       - name: Taking a Database Dump Inside AWS Server
         run: |
-           echo "🛠️ Creating a backup directly inside the AWS server..."
-           ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 << EOF
-             mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW_3.sql
-           EOF
-           echo "✅ Backup created at /home/ec2-user/BACKUP_NEW_3.sql inside AWS server"
+          echo "🛠️ Creating a backup directly inside the AWS server..."
+          ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 << EOF
+            mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW_2.sql
+          EOF
+          echo "✅ Backup created at /home/ec2-user/BACKUP_NEW_2.sql inside AWS server"
            
-
       - name: Run Liquibase UPDATE with Properties File
         id: liquibase_update
         run: |
@@ -71,18 +66,15 @@ jobs:
         continue-on-error: true  # Prevents pipeline from failing immediately
 
 
-
-
-
       - name: Restore Database from Backup (If Liquibase Fails)
         if: env.LIQUIBASE_EXIT_CODE != '0'
         run: |
           echo "❌ Liquibase update failed. Restoring database..."
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 \
-          'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 < /home/ec2-user/BACKUP_NEW_3.sql'
+          'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 < /home/ec2-user/BACKUP_NEW_2.sql'
           echo "✅ Database rollback completed successfully!"
-          
 
+          
       - name: Print Success Message
         if: env.LIQUIBASE_EXIT_CODE == '0'
         run: echo "✅ Liquibase migration applied successfully!"
