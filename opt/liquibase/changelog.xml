@@ -69,6 +69,18 @@
             <column name="ranuri-NEW_3" type="varchar(255)"/>
         </addColumn>
     </changeSet>
-    
+
+
+     <changeSet id="11" author="Ranuri">
+        <addColumn tableName="example_table">
+            <column name="ranuri-NEW_4" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="11" author="Ranuri">
+        <addColumn tableName="ex_table">
+            <column name="ranuri-NEW_5" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
     
 </databaseChangeLog>
