@@ -63,25 +63,26 @@ jobs:
            
 
       - name: Run Liquibase UPDATE with Properties File
+        id: liquibase_update
         run: |
           echo " Running Liquibase update..."
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
+          echo "LIQUIBASE_EXIT_CODE=$?" >> $GITHUB_ENV  # Store exit code in environment variable
         continue-on-error: true  # Prevents pipeline from failing immediately
 
 
 
 
 
-        
-
-
-      - name: Restore Database from Backup
+      - name: Restore Database from Backup (If Liquibase Fails)
+        if: env.LIQUIBASE_EXIT_CODE != '0'
         run: |
+          echo "❌ Liquibase update failed. Restoring database..."
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 \
           'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 < /home/ec2-user/BACKUP_NEW_3.sql'
           echo "✅ Database rollback completed successfully!"
           
 
       - name: Print Success Message
-        if: success()
+        if: env.LIQUIBASE_EXIT_CODE == '0'
         run: echo "✅ Liquibase migration applied successfully!"
