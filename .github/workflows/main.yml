@@ -57,9 +57,9 @@ jobs:
         run: |
            echo "🛠️ Creating a backup directly inside the AWS server..."
            ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 << EOF
-             mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW_2.sql
+             mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW_3.sql
            EOF
-           echo "✅ Backup created at /home/ec2-user/BACKUP_NEW_2.sql inside AWS server"
+           echo "✅ Backup created at /home/ec2-user/BACKUP_NEW_3.sql inside AWS server"
            
 
       - name: Run Liquibase UPDATE with Properties File
@@ -78,7 +78,7 @@ jobs:
       - name: Restore Database from Backup
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 \
-          'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 < /home/ec2-user/BACKUP_NEW.sql'
+          'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 < /home/ec2-user/BACKUP_NEW_3.sql'
           echo "✅ Database rollback completed successfully!"
           
 
