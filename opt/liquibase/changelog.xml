@@ -77,7 +77,7 @@
         </addColumn>
     </changeSet>
 
-    <changeSet id="11" author="Ranuri">
+    <changeSet id="12" author="Ranuri">
         <addColumn tableName="ex_table">
             <column name="ranuri-NEW_5" type="varchar(255)"/>
         </addColumn>
