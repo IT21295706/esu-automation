@@ -94,5 +94,11 @@
             <column name="ranuri-NEW_7" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+
+     <changeSet id="15" author="Ranuri">
+        <addColumn tableName="ex_table">
+            <column name="ranuri-NEW_8" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
     
 </databaseChangeLog>
