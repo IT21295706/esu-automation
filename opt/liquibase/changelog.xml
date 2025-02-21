@@ -95,10 +95,24 @@
         </addColumn>
     </changeSet>
 
-     <changeSet id="15" author="Ranuri">
-        <addColumn tableName="ex_table">
-            <column name="ranuri-NEW_8" type="varchar(255)"/>
-        </addColumn>
+    
+    <changeSet id="15" author="Ranuri">
+       <addColumn tableName="example_table">
+           <column name="ranuri-NEW_8" type="varchar(255)"/>
+       </addColumn>
+       <rollback>
+            <dropColumn tableName="example_table" columnName="ranuri-NEW_8"/>
+       </rollback>
     </changeSet>
+
+    
+   <changeSet id="16" author="Ranuri">
+      <addColumn tableName="ex_table">
+          <column name="ranuri-NEW_9" type="varchar(255)"/>
+      </addColumn>
+    <rollback>
+        <dropColumn tableName="ex_table" columnName="ranuri-NEW_9"/>
+    </rollback>
+   </changeSet>
     
 </databaseChangeLog>
