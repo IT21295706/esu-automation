@@ -1,0 +1,61 @@
+name: liquibase-rollback
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'liquibase/changelog.xml'  # Trigger when changelog.xml changes
+  workflow_dispatch:
+
+jobs:
+  liquibase-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Liquibase
+        run: |
+          wget https://github.com/liquibase/liquibase/releases/download/v4.25.0/liquibase-4.25.0.zip
+          unzip liquibase-4.25.0.zip -d /opt/liquibase
+          chmod +x /opt/liquibase/liquibase
+
+      - name: Test DB Connection
+        run: nc -zv 13.212.238.210 3306
+
+      - name: Copy Liquibase Configuration Files
+        run: |
+          mkdir -p /opt/liquibase  
+          cp $GITHUB_WORKSPACE/liquibase/liquibase.properties /opt/liquibase/liquibase.properties
+          cp $GITHUB_WORKSPACE/liquibase/changelog.xml /opt/liquibase/changelog.xml
+          ls -l /opt/liquibase  
+
+      - name: Take Database Backup Before Update
+        run: |
+          ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 \
+          'mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_PRE_UPDATE.sql'
+          echo "✅ Backup created!"
+
+      - name: Run Liquibase Update
+        id: liquibase_update
+        continue-on-error: true  # Allows capturing errors without stopping pipeline
+        run: |
+          echo "🚀 Running Liquibase update..."
+          /opt/liquibase/liquibase --searchPath=/opt \
+            --defaults-file=/opt/liquibase/liquibase.properties \
+            update --changelog-file=liquibase/changelog.xml --log-level=debug
+
+      - name: Run Liquibase Rollback if Update Fails
+        if: failure()
+        run: |
+          echo "⚠️ Update failed! Rolling back changes..."
+          /opt/liquibase/liquibase --searchPath=/opt \
+            --defaults-file=/opt/liquibase/liquibase.properties \
+            rollbackCount 1  # Rollback only the last changeset
+          echo "✅ Rollback completed!"
+
+      - name: Print Success Message
+        if: success()
+        run: echo "✅ Liquibase migration applied successfully!"
