@@ -90,7 +90,7 @@
     </changeSet>
 
      <changeSet id="14" author="Ranuri">
-        <addColumn tableName="ex_table">
+        <addColumn tableName="example_table">
             <column name="ranuri-NEW_7" type="varchar(255)"/>
         </addColumn>
     </changeSet>
