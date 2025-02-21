@@ -17,15 +17,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+
       - name: Set Up Liquibase
         run: |
           wget https://github.com/liquibase/liquibase/releases/download/v4.25.0/liquibase-4.25.0.zip
           unzip liquibase-4.25.0.zip -d /opt/liquibase
           chmod +x /opt/liquibase/liquibase
+
           
       - name: Test DB Connection
         run: |
           nc -zv 13.212.238.210 3306
+
           
       - name: Copy Liquibase Configuration Files
         run: |
@@ -33,29 +36,29 @@ jobs:
           cp $GITHUB_WORKSPACE/liquibase/liquibase.properties /opt/liquibase/liquibase.properties
           cp $GITHUB_WORKSPACE/liquibase/changelog.xml /opt/liquibase/changelog.xml
           ls -l /opt/liquibase  
-          
-      - name: Debug Liquibase Properties
-        run: |
-          ls -l /opt/liquibase/
-          cat /opt/liquibase/liquibase.properties || echo "⚠️ liquibase.properties NOT FOUND!"
+
 
       - name: Run Liquibase STATUS
         run: |
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
+
           
       - name: Add SSH Key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/aws_key.pem
           chmod 600 ~/.ssh/aws_key.pem
+
       
       - name: Take a Database Backup Inside AWS Server
         run: |
           echo "🛠️ Creating a backup before applying changes..."
           ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 << EOF
-            mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW_2.sql
+            mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW_4.sql
           EOF
           echo "✅ Backup created successfully!"
+
+
 
       - name: Run Liquibase UPDATE with Error Handling
         id: liquibase_update
@@ -66,12 +69,14 @@ jobs:
           echo "LIQUIBASE_EXIT_CODE=$?" >> $GITHUB_ENV  # Save exit code to GitHub Actions env variable
           set -e  # Enable failing for later steps
 
+
+
       - name: Restore Database from Backup (Only if Liquibase Fails)
         if: env.LIQUIBASE_EXIT_CODE != '0'  # Run only if Liquibase failed
         run: |
           echo "⚠️ Liquibase update failed! Rolling back database..."
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@13.212.238.210 \
-          'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 < /home/ec2-user/BACKUP_NEW_2.sql'
+          'mysql -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 < /home/ec2-user/BACKUP_NEW_4.sql'
           echo "✅ Database rollback completed successfully!"
           
       - name: Print Success Message
