@@ -57,7 +57,7 @@ jobs:
         run: |
           echo "🛠️ Creating a backup before applying changes..."
           ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 << EOF
-            mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW_4.sql
+            mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_PRE_UPDATE.sql
           EOF
           echo "✅ Backup created successfully!"
 
@@ -70,11 +70,12 @@ jobs:
           echo "🔄 Running Liquibase update..."
           set +e  # Allow script to continue even if an error occurs
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
+          echo "LIQUIBASE_EXIT_CODE=$?" >> $GITHUB_ENV  # Save exit code to GitHub Actions env variable
           set -e  # Enable failing for later steps
 
 
       - name: Run Liquibase Rollback if Update Fails
-        if: failure()
+        if: env.LIQUIBASE_EXIT_CODE != '0'  # Run only if Liquibase failed
         run: |
           echo "⚠️ Update failed! Rolling back changes..."
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties rollbackCount 1 --changelog-file=liquibase/changelog.xml --log-level=debug   
@@ -82,5 +83,5 @@ jobs:
 
 
       - name: Print Success Message
-        if: success()
+        if: env.LIQUIBASE_EXIT_CODE == '0'  # Run only if Liquibase succeeded
         run: echo "✅ Liquibase migration applied successfully!"
