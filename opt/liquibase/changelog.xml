@@ -114,12 +114,5 @@
         <dropColumn tableName="example_table" columnName="ranuri-NEW_9"/>
     </rollback>
    </changeSet>
-
-    
-    <changeSet id="17" author="Ranuri">
-      <addColumn tableName="ex_table">
-          <column name="ranuri-NEW_10" type="varchar(255)"/>
-      </addColumn>
-   </changeSet>
     
 </databaseChangeLog>
