@@ -22,39 +22,64 @@ jobs:
           unzip liquibase-4.25.0.zip -d /opt/liquibase
           chmod +x /opt/liquibase/liquibase
 
+
       - name: Test DB Connection
         run: nc -zv 13.212.238.210 3306
+
 
       - name: Copy Liquibase Configuration Files
         run: |
           mkdir -p /opt/liquibase  
-          cp $GITHUB_WORKSPACE/liquibase/liquibase.properties /opt/liquibase/liquibase.properties
-          cp $GITHUB_WORKSPACE/liquibase/changelog.xml /opt/liquibase/changelog.xml
+          cp $GITHUB_WORKSPACE/opt/liquibase/liquibase.properties /opt/liquibase/liquibase.properties
+          cp $GITHUB_WORKSPACE/opt/liquibase/changelog.xml /opt/liquibase/changelog.xml
           ls -l /opt/liquibase  
 
-      - name: Take Database Backup Before Update
+          
+      - name: Debug Liquibase Properties
         run: |
-          ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 \
-          'mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_PRE_UPDATE.sql'
-          echo "✅ Backup created!"
+          ls -l /opt/liquibase/
+          cat /opt/liquibase/liquibase.properties || echo "⚠️ liquibase.properties NOT FOUND!"
+
+          
+      - name: Run Liquibase STATUS
+        run: |
+          /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties status --changelog-file=liquibase/changelog.xml --log-level=debug
+
+          
+      - name: Add SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/aws_key.pem
+          chmod 600 ~/.ssh/aws_key.pem
+
+      
+      - name: Take a Database Backup Inside AWS Server
+        run: |
+          echo "🛠️ Creating a backup before applying changes..."
+          ssh -i ~/.ssh/aws_key.pem -o StrictHostKeyChecking=no ec2-user@13.212.238.210 << EOF
+            mysqldump -u root -p"${{ secrets.MYSQL_PASSWORD }}" database2 > /home/ec2-user/BACKUP_NEW_4.sql
+          EOF
+          echo "✅ Backup created successfully!"
+
+
 
       - name: Run Liquibase Update
         id: liquibase_update
-        continue-on-error: true  # Allows capturing errors without stopping pipeline
         run: |
-          echo "🚀 Running Liquibase update..."
-          /opt/liquibase/liquibase --searchPath=/opt \
-            --defaults-file=/opt/liquibase/liquibase.properties \
-            update --changelog-file=liquibase/changelog.xml --log-level=debug
+          run: |
+          echo "🔄 Running Liquibase update..."
+          set +e  # Allow script to continue even if an error occurs
+          /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
+          set -e  # Enable failing for later steps
+
 
       - name: Run Liquibase Rollback if Update Fails
         if: failure()
         run: |
           echo "⚠️ Update failed! Rolling back changes..."
-          /opt/liquibase/liquibase --searchPath=/opt \
-            --defaults-file=/opt/liquibase/liquibase.properties \
-            rollbackCount 1  # Rollback only the last changeset
+          /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties rollbackCount 1 --changelog-file=liquibase/changelog.xml --log-level=debug   
           echo "✅ Rollback completed!"
+
 
       - name: Print Success Message
         if: success()
