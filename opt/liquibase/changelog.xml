@@ -135,13 +135,6 @@
     </rollback>
    </changeSet>
 
-  <changeSet id="20" author="Ranuri">
-      <addColumn tableName="ex_table">
-          <column name="ranuri-NEW_12" type="varchar(255)"/>
-      </addColumn>
-    <rollback>
-        <dropColumn tableName="example_table" columnName="ranuri-NEW_12"/>
-    </rollback>
-   </changeSet>
+ 
     
 </databaseChangeLog>
