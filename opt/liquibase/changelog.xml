@@ -111,7 +111,7 @@
           <column name="ranuri-NEW_9" type="varchar(255)"/>
       </addColumn>
     <rollback>
-        <dropColumn tableName="example_table" columnName="ranuri-NEW_9"/>
+        <dropColumn tableName="example_table" columnName="ranuri-NEW_10"/>
     </rollback>
    </changeSet>
 
