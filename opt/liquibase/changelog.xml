@@ -121,17 +121,26 @@
           <column name="ranuri-NEW_10" type="varchar(255)"/>
       </addColumn>
     <rollback>
-        <dropColumn tableName="example_table" columnName="ranuri-NEW_9"/>
+        <dropColumn tableName="example_table" columnName="ranuri-NEW_10"/>
     </rollback>
    </changeSet>
 
     
-    <changeSet id="18" author="Ranuri">
-      <addColumn tableName="ex_table">
+    <changeSet id="19" author="Ranuri">
+      <addColumn tableName="example_table">
           <column name="ranuri-NEW_11" type="varchar(255)"/>
       </addColumn>
     <rollback>
-        <dropColumn tableName="example_table" columnName="ranuri-NEW_9"/>
+        <dropColumn tableName="example_table" columnName="ranuri-NEW_11"/>
+    </rollback>
+   </changeSet>
+
+  <changeSet id="20" author="Ranuri">
+      <addColumn tableName="ex_table">
+          <column name="ranuri-NEW_12" type="varchar(255)"/>
+      </addColumn>
+    <rollback>
+        <dropColumn tableName="example_table" columnName="ranuri-NEW_12"/>
     </rollback>
    </changeSet>
     
