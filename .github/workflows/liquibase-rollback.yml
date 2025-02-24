@@ -66,7 +66,6 @@ jobs:
       - name: Run Liquibase Update
         id: liquibase_update
         run: |
-          run: |
           echo "🔄 Running Liquibase update..."
           set +e  # Allow script to continue even if an error occurs
           /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties update --changelog-file=liquibase/changelog.xml --log-level=debug
