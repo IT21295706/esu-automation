@@ -126,7 +126,7 @@
    </changeSet>
 
     
-    <changeSet id="19" author="Ranuri">
+    <changeSet id="18" author="Ranuri">
       <addColumn tableName="example_table">
           <column name="ranuri-NEW_11" type="varchar(255)"/>
       </addColumn>
