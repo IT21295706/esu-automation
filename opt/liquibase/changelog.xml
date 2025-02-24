@@ -135,6 +135,26 @@
     </rollback>
    </changeSet>
 
+    
+    <changeSet id="19" author="Ranuri">
+      <addColumn tableName="example_table">
+          <column name="ranuri-NEW_12" type="varchar(255)"/>
+      </addColumn>
+    <rollback>
+        <dropColumn tableName="example_table" columnName="ranuri-NEW_12"/>
+    </rollback>
+   </changeSet>
+
+    
+    <changeSet id="20" author="Ranuri">
+      <addColumn tableName="ex_table">
+          <column name="ranuri-NEW_13" type="varchar(255)"/>
+      </addColumn>
+    <rollback>
+        <dropColumn tableName="example_table" columnName="ranuri-NEW_13"/>
+    </rollback>
+   </changeSet>
+
  
     
 </databaseChangeLog>
