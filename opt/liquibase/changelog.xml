@@ -155,6 +155,16 @@
     </rollback>
    </changeSet>
 
+    
+    <changeSet id="21" author="Ranuri">
+    <createTable tableName="ranuri_auto_rollback">
+        <column name="id" type="int" autoIncrement="true">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="name" type="varchar(255)"/>
+    </createTable>
+</changeSet>
+
  
     
 </databaseChangeLog>
