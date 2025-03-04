@@ -175,7 +175,7 @@
     </rollback>
    </changeSet>
     
-      <changeSet id="23" author="Ranuri">
+      <changeSet id="24" author="Ranuri">
       <addColumn tableName="ex_table">
           <column name="ranuri-NEW_14" type="varchar(255)"/>
       </addColumn>
