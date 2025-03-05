@@ -184,14 +184,32 @@
     </createTable>
 </changeSet>
 
-    
-    
-      <changeSet id="25" author="Ranuri">
-      <addColumn tableName="ex_table">
+
+    <changeSet id="25" author="Ranuri">
+      <addColumn tableName="example_table">
           <column name="ranuri-NEW_14" type="varchar(255)"/>
       </addColumn>
     <rollback>
-        <dropColumn tableName="ex_table" columnName="ranuri-NEW_14"/>
+        <dropColumn tableName="example_table" columnName="ranuri-NEW_14"/>
+    </rollback>
+   </changeSet>
+
+     <changeSet id="26" author="Ranuri">
+    <createTable tableName="ranuri_auto_rollback_4">
+        <column name="id" type="int" autoIncrement="true">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="name" type="varchar(255)"/>
+    </createTable>
+</changeSet>
+    
+    
+      <changeSet id="27" author="Ranuri">
+      <addColumn tableName="ex_table">
+          <column name="ranuri-NEW_15" type="varchar(255)"/>
+      </addColumn>
+    <rollback>
+        <dropColumn tableName="ex_table" columnName="ranuri-NEW_15"/>
     </rollback>
    </changeSet>
 
