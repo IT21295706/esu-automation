@@ -174,8 +174,19 @@
         <dropColumn tableName="example_table" columnName="ranuri-NEW_13"/>
     </rollback>
    </changeSet>
+
+     <changeSet id="24" author="Ranuri">
+    <createTable tableName="ranuri_auto_rollback_3">
+        <column name="id" type="int" autoIncrement="true">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="name" type="varchar(255)"/>
+    </createTable>
+</changeSet>
+
     
-      <changeSet id="24" author="Ranuri">
+    
+      <changeSet id="25" author="Ranuri">
       <addColumn tableName="ex_table">
           <column name="ranuri-NEW_14" type="varchar(255)"/>
       </addColumn>
