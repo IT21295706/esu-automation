@@ -216,8 +216,8 @@
    </changeSet>
 
      <changeSet id="30" author="Ranuri">
-      <addColumn tableName="example_table">
-          <column name="col-2" type="varchar(255)"/>
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-1" type="varchar(255)"/>
       </addColumn>
    </changeSet>
    
