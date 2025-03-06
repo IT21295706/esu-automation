@@ -208,16 +208,15 @@
           <column name="ranuri-NEW_15" type="varchar(255)"/>
       </addColumn>
    </changeSet>
-    
-    
+
       <changeSet id="29" author="Ranuri">
-      <addColumn tableName="ex_table">
-          <column name="ranuri-NEW_16" type="varchar(255)"/>
+      <addColumn tableName="example_table">
+          <column name="col-1" type="varchar(255)"/>
       </addColumn>
-    <rollback>
-        <dropColumn tableName="ex_table" columnName="ranuri-NEW_16"/>
-    </rollback>
    </changeSet>
+    
+    
+  
 
  
     
