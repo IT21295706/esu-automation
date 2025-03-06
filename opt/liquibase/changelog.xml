@@ -220,5 +220,17 @@
           <column name="col-1" type="varchar(255)"/>
       </addColumn>
    </changeSet>
+
+    <changeSet id="31" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-2" type="varchar(255)"/>
+      </addColumn>
+   </changeSet>
+
+    <changeSet id="32" author="Ranuri">
+      <addColumn tableName="rrrrrr">
+          <column name="col-3" type="varchar(255)"/>
+      </addColumn>
+   </changeSet>
    
 </databaseChangeLog>
