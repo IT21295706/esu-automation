@@ -41,5 +41,17 @@
           <column name="col-6-ALUTH" type="varchar(5)"/>
       </addColumn>
    </changeSet>
+
+      <changeSet id="36" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-7-ALUTH" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
+
+      <changeSet id="37" author="Ranuri">
+      <addColumn tableName="rrrrrr">
+          <column name="col-8-ALUTH" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
    
 </databaseChangeLog>
