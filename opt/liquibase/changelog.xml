@@ -60,9 +60,29 @@
       </addColumn>
    </changeSet>
 
-      <changeSet id="39" author="Ranuri">
+     <changeSet id="39" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-10-aluthhh" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
+
+     <changeSet id="40" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-11-aluthhh" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
+
+     <changeSet id="41" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-12-aluthhh" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
+
+
+
+      <changeSet id="42" author="Ranuri">
       <addColumn tableName="rrrrrr">
-          <column name="col-10-ALUTH" type="varchar(5)"/>
+          <column name="col-13-aluthhh" type="varchar(5)"/>
       </addColumn>
    </changeSet>
    
