@@ -232,5 +232,17 @@
           <column name="col-3" type="varchar(255)"/>
       </addColumn>
    </changeSet>
+
+     <changeSet id="33" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-4-ALUTH" type="varchar(255)"/>
+      </addColumn>
+   </changeSet>
+
+    <changeSet id="33" author="Ranuri">
+      <addColumn tableName="rrrrrrrrrrrrr_4">
+          <column name="col-5-ALUTH" type="varchar(255)"/>
+      </addColumn>
+   </changeSet>
    
 </databaseChangeLog>
