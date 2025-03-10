@@ -62,6 +62,10 @@ jobs:
           echo "✅ Backup created successfully!"
 
 
+      - name: Tag Database Before Update
+        run: |
+            /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties tag "before_update"
+    
 
       - name: Run Liquibase Update
         id: liquibase_update
@@ -73,16 +77,12 @@ jobs:
           set -e  # Enable failing for later steps
 
 
-      - name: Tag Database Before Update
-        run: |
-            /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties tag "before_update"
-
 
       - name: Run Liquibase Rollback if Update Fails
         if: env.LIQUIBASE_EXIT_CODE != '0'  # Run only if Liquibase failed
         run: |
           echo "⚠️ Update failed! Rolling back changes..."
-          /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties rollback --tag before_update --changelog-file=liquibase/changelog.xml --log-level=debug   
+          /opt/liquibase/liquibase --searchPath=/opt --defaults-file=/opt/liquibase/liquibase.properties rollbackToTag  --tag before_update --changelog-file=liquibase/changelog.xml --log-level=debug   
           echo "✅ Rollback completed!"
 
 
