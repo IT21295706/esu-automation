@@ -79,10 +79,28 @@
    </changeSet>
 
 
+     <changeSet id="42" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-13-NEWSTEma" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
 
-      <changeSet id="42" author="Ranuri">
+      <changeSet id="43" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-14-NEWSTEma" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
+
+      <changeSet id="44" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-15-NEWSTEma" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
+
+
+      <changeSet id="45" author="Ranuri">
       <addColumn tableName="rrrrrr">
-          <column name="col-13-aluthhh" type="varchar(5)"/>
+          <column name="col-16-aluthhh" type="varchar(5)"/>
       </addColumn>
    </changeSet>
    
