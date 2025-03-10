@@ -103,10 +103,16 @@
       </addColumn>
    </changeSet>
 
-
       <changeSet id="46" author="Ranuri">
-      <addColumn tableName="rrrrrr">
+      <addColumn tableName="ranuri_auto_rollback_4">
           <column name="col-17-new" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
+
+
+      <changeSet id="47" author="Ranuri">
+      <addColumn tableName="rrrrrr">
+          <column name="col-18-new" type="varchar(5)"/>
       </addColumn>
    </changeSet>
    
