@@ -239,7 +239,7 @@
       </addColumn>
    </changeSet>
 
-    <changeSet id="33" author="Ranuri">
+    <changeSet id="34" author="Ranuri">
       <addColumn tableName="rrrrrrrrrrrrr_4">
           <column name="col-5-ALUTH" type="varchar(255)"/>
       </addColumn>
