@@ -48,9 +48,21 @@
       </addColumn>
    </changeSet>
 
-      <changeSet id="37" author="Ranuri">
-      <addColumn tableName="rrrrrr">
+    <changeSet id="37" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
           <column name="col-8-ALUTH" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
+
+     <changeSet id="38" author="Ranuri">
+      <addColumn tableName="ranuri_auto_rollback_4">
+          <column name="col-9-ALUTH" type="varchar(5)"/>
+      </addColumn>
+   </changeSet>
+
+      <changeSet id="39" author="Ranuri">
+      <addColumn tableName="rrrrrr">
+          <column name="col-10-ALUTH" type="varchar(5)"/>
       </addColumn>
    </changeSet>
    
