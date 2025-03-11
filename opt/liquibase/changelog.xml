@@ -19,5 +19,14 @@
       </addColumn>
    </changeSet>
 
+    <changeSet id="53" author="Ranuri">
+    <insert tableName="NEW_TABLE">
+        <column name="id" value="10"/>
+        <column name="name" value="Test_Insert"/>
+        <column name="col-1-MEEYAWWW" value="Value1"/>
+        <column name="col-2-MEEYAWWW" value="Value2"/>
+    </insert>
+</changeSet>
+
    
 </databaseChangeLog>
