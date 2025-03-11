@@ -109,18 +109,6 @@
       </addColumn>
    </changeSet>
 
-      <changeSet id="47" author="Ranuri">
-      <addColumn tableName="ranuri_auto_rollback_4">
-          <column name="col-18-boo" type="varchar(5)"/>
-      </addColumn>
-   </changeSet>
-
-       <changeSet id="48" author="Ranuri">
-      <addColumn tableName="ranuri_auto_rollback_4">
-          <column name="col-19-boo" type="varchar(5)"/>
-      </addColumn>
-   </changeSet>
-
 
     <changeSet id="49" author="Ranuri">
     <insert tableName="ranuri_auto_rollback_4">
@@ -131,11 +119,5 @@
     </insert>
 </changeSet>
 
-
-      <changeSet id="50" author="Ranuri">
-      <addColumn tableName="rrrrrr">
-          <column name="col-21-boo" type="varchar(5)"/>
-      </addColumn>
-   </changeSet>
    
 </databaseChangeLog>
