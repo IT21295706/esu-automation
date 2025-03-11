@@ -112,7 +112,7 @@
 
     <changeSet id="49" author="Ranuri">
     <insert tableName="ranuri_auto_rollback_4">
-        <column name="id" value="100"/>
+        <column name="id" value="10"/>
         <column name="name" value="Test_Insert"/>
         <column name="col-1-MEEYAWWW" value="Value1"/>
         <column name="col-2-MEEYAWWW" value="Value2"/>
