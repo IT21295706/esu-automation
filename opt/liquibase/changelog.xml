@@ -122,9 +122,19 @@
    </changeSet>
 
 
-      <changeSet id="49" author="Ranuri">
+    <changeSet id="49" author="Ranuri">
+    <insert tableName="ranuri_auto_rollback_4">
+        <column name="id" value="100"/>
+        <column name="name" value="Test_Insert"/>
+        <column name="col-1-MEEYAWWW" value="Value1"/>
+        <column name="col-2-MEEYAWWW" value="Value2"/>
+    </insert>
+</changeSet>
+
+
+      <changeSet id="50" author="Ranuri">
       <addColumn tableName="rrrrrr">
-          <column name="col-20-boo" type="varchar(5)"/>
+          <column name="col-21-boo" type="varchar(5)"/>
       </addColumn>
    </changeSet>
    
