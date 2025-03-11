@@ -6,21 +6,21 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
 
-     <changeSet id="1" author="Ranuri">
+     <changeSet id="51" author="Ranuri">
       <addColumn tableName="NEW_TABLE">
           <column name="col-1-boo" type="varchar(5)"/>
       </addColumn>
    </changeSet>
 
 
-      <changeSet id="2" author="Ranuri">
+      <changeSet id="52" author="Ranuri">
       <addColumn tableName="NEW_TABLE">
           <column name="col-2-boo" type="varchar(5)"/>
       </addColumn>
    </changeSet>
 
 
-    <changeSet id="3" author="Ranuri">
+    <changeSet id="53" author="Ranuri">
     <insert tableName="NEW_TABLE">
         <column name="id" value="10"/>
         <column name="name" value="Test_Insert"/>
