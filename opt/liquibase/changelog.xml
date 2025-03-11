@@ -8,7 +8,7 @@
 
      <changeSet id="1" author="Ranuri">
       <addColumn tableName="NEW_TABLE">
-          <column name="col-1-boo" type="varchar(255)"/>
+          <column name="col-1-boo" type="varchar(5)"/>
       </addColumn>
    </changeSet>
 
